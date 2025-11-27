@@ -13,9 +13,8 @@ Sistema completo de gestión estudiantil construido con arquitectura full-stack 
 - [Uso](#uso)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [API Endpoints](#api-endpoints)
-- [Capturas de Pantalla](#capturas-de-pantalla)
-- [Contribución](#contribución)
-- [Licencia](#licencia)
+- [Probar con Postman](#-probar-endpoints-con-postman)
+- [Despliegue](#-despliegue)
 
 ## ✨ Características
 
@@ -246,37 +245,139 @@ ProyectoPt/
 }
 ```
 
-## 📸 Capturas de Pantalla
+## 🧪 Probar Endpoints con Postman
 
-### Vista Principal
-![Vista Principal](docs/screenshots/main-view.png)
+### Configuración Inicial
 
-### Formulario de Creación
-![Crear Alumno](docs/screenshots/create-form.png)
+1. **Descarga e instala** [Postman](https://www.postman.com/downloads/)
+2. **Asegúrate** de que el backend esté corriendo en `https://localhost:7001`
 
-### Modo Edición
-![Editar Alumno](docs/screenshots/edit-mode.png)
+### 1. Obtener Todos los Alumnos (GET)
 
-### Notificaciones
-![Alertas](docs/screenshots/notifications.png)
+**Método:** `GET`  
+**URL:** `https://localhost:7001/api/Alumnos`  
+**Headers:** Ninguno requerido
 
-### Modo Oscuro
-![Dark Mode](docs/screenshots/dark-mode.png)
-
-## 🧪 Pruebas
-
-### Backend
-
-```bash
-cd PruebaTecnicaBe
-dotnet test
+**Respuesta esperada (200 OK):**
+```json
+[
+  {
+    "id": 1,
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "email": "juan.perez@email.com",
+    "fechaNacimiento": "2000-05-15"
+  }
+]
 ```
 
-### Frontend
+### 2. Obtener Alumno por ID (GET)
+
+**Método:** `GET`  
+**URL:** `https://localhost:7001/api/Alumnos/1`  
+**Headers:** Ninguno requerido
+
+**Respuesta esperada (200 OK):**
+```json
+{
+  "id": 1,
+  "nombre": "Juan",
+  "apellido": "Pérez",
+  "email": "juan.perez@email.com",
+  "fechaNacimiento": "2000-05-15"
+}
+```
+
+### 3. Crear Nuevo Alumno (POST)
+
+**Método:** `POST`  
+**URL:** `https://localhost:7001/api/Alumnos`  
+**Headers:**
+- `Content-Type`: `application/json`
+
+**Body (raw JSON):**
+```json
+{
+  "nombre": "María",
+  "apellido": "García",
+  "email": "maria.garcia@email.com",
+  "fechaNacimiento": "1999-08-20"
+}
+```
+
+**Respuesta esperada (201 Created):**
+```json
+{
+  "id": 2,
+  "nombre": "María",
+  "apellido": "García",
+  "email": "maria.garcia@email.com",
+  "fechaNacimiento": "1999-08-20"
+}
+```
+
+### 4. Actualizar Alumno (PUT)
+
+**Método:** `PUT`  
+**URL:** `https://localhost:7001/api/Alumnos/1`  
+**Headers:**
+- `Content-Type`: `application/json`
+
+**Body (raw JSON):**
+```json
+{
+  "nombre": "Juan Carlos",
+  "apellido": "Pérez López",
+  "email": "juancarlos.perez@email.com",
+  "fechaNacimiento": "2000-05-15"
+}
+```
+
+**Respuesta esperada (204 No Content)**
+
+### 5. Eliminar Alumno (DELETE)
+
+**Método:** `DELETE`  
+**URL:** `https://localhost:7001/api/Alumnos/1`  
+**Headers:** Ninguno requerido
+
+**Respuesta esperada (204 No Content)**
+
+### Errores Comunes
+
+| Código | Error | Solución |
+|--------|-------|----------|
+| 400 | Bad Request | Verifica que el JSON sea válido y los campos requeridos estén presentes |
+| 404 | Not Found | El ID del alumno no existe en la base de datos |
+| 500 | Internal Server Error | Revisa que el backend esté corriendo y la BD conectada |
+
+### Colección de Postman
+
+Puedes importar esta colección completa en Postman:
+
+1. Abre Postman
+2. Click en **Import**
+3. Copia y pega la URL del archivo `postman_collection.json` (si lo agregas al repo)
+4. Todos los endpoints estarán listos para usar
+
+### Probar con cURL (alternativa)
 
 ```bash
-cd PruebaTecnicaFe
-npm run test
+# GET - Listar todos
+curl -X GET https://localhost:7001/api/Alumnos
+
+# POST - Crear nuevo
+curl -X POST https://localhost:7001/api/Alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Pedro","apellido":"Martínez","email":"pedro@email.com","fechaNacimiento":"2001-03-10"}'
+
+# PUT - Actualizar
+curl -X PUT https://localhost:7001/api/Alumnos/1 \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Pedro","apellido":"Martínez Silva","email":"pedro.martinez@email.com","fechaNacimiento":"2001-03-10"}'
+
+# DELETE - Eliminar
+curl -X DELETE https://localhost:7001/api/Alumnos/1
 ```
 
 ## 🚀 Despliegue
@@ -297,43 +398,6 @@ npm run build
 
 Los archivos compilados estarán en `dist/`
 
-## 🤝 Contribución
-
-Las contribuciones son bienvenidas. Por favor:
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add: nueva característica'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-### Convención de Commits
-
-- `Add:` Nueva funcionalidad
-- `Fix:` Corrección de bugs
-- `Update:` Actualización de código existente
-- `Remove:` Eliminación de código
-- `Docs:` Cambios en documentación
-
-## 📝 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## 👤 Autor
-
-**Armando Núñez**
-
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- LinkedIn: [Tu Perfil](https://linkedin.com/in/tu-perfil)
-
-## 🙏 Agradecimientos
-
-- Vue.js Team
-- Microsoft .NET Team
-- Comunidad de desarrolladores
-
 ---
 
-⭐ Si este proyecto te fue útil, ¡considera darle una estrella!
-
-**Desarrollado con ❤️ y ☕**
+**Desarrollado con ❤️ usando Vue 3 y .NET 9**
